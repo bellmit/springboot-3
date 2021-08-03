@@ -5,6 +5,7 @@ import com.leo.boot.jpa.domain.projection.UserProjection;
 import com.leo.boot.jpa.domain.projection.UserVO;
 import com.leo.boot.jpa.enumeration.Gender;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,7 +46,7 @@ public class BaseUserRepositoryTest {
         assertEquals(1, user.getVersion().intValue());
     }
 
-    @Test(expected = ObjectOptimisticLockingFailureException.class)
+    @Test
     public void testConflict() {
         User user = userRepository.findByName("张三").get(0);
         assertEquals(0, user.getVersion().intValue());
@@ -54,6 +55,19 @@ public class BaseUserRepositoryTest {
         userRepository.save(user);
 
         user.setName("王五");
+        Assert.assertThrows(ObjectOptimisticLockingFailureException.class, () -> userRepository.save(user));
+    }
+
+    @Test
+    public void testConflict2() {
+        User user = userRepository.findByName("张三").get(0);
+        assertEquals(0, user.getVersion().intValue());
+
+        user.setName("李四");
+        userRepository.save(user);
+
+        user.setName("王五");
+        user.setVersion(1);
         userRepository.save(user);
     }
 
