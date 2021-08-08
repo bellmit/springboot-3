@@ -64,7 +64,7 @@ public class PageableUtil {
             } catch (IllegalAccessException | InvocationTargetException e) {
                 throw new IllegalArgumentException(e);
             }
-        }));
+        }, nullsLast(Comparator.naturalOrder())));
         return Direction.ASC.equals(order.getDirection()) ? comparator : comparator.reversed();
     }
 }
