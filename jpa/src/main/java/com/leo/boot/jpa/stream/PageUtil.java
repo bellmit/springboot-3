@@ -23,7 +23,7 @@ import static java.util.Comparator.comparing;
 import static java.util.Comparator.nullsLast;
 import static java.util.stream.Collectors.toList;
 
-public class PageableUtil {
+public class PageUtil {
 
     public static <T> Page<T> getPage(List<T> list, Pageable pageable) {
         if (CollectionUtils.isEmpty(list)) {
