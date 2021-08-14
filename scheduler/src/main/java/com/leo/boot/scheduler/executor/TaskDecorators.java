@@ -23,6 +23,6 @@ public class TaskDecorators implements TaskDecorator {
     }
 
     private TaskDecorator merge(TaskDecorator a, TaskDecorator b) {
-        return r -> b.decorate(a.decorate(r));
+        return r -> a.decorate(b.decorate(r));
     }
 }

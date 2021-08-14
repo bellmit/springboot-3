@@ -29,7 +29,7 @@ public class ExecutorConfig {
     @Bean
     public TaskDecorators taskDecorators() {
         return new TaskDecorators()
-                .add(TimeStatUtils::decorate)
-                .add(MDCUtils::decorate);
+                .add(MDCUtils::decorate)
+                .add(TimeStatUtils::decorate);
     }
 }
