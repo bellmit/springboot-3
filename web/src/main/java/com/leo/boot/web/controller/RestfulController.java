@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,7 +40,11 @@ public class RestfulController {
             @ApiImplicitParam(name = "size", type = "int", value = "每页记录数", paramType = "query"),
             @ApiImplicitParam(name = "sort", value = "排序相关信息", paramType = "query", allowMultiple = true)})
     public ResultVO<List<String>> page(@ApiParam(value = "参数") @RequestParam String param,
-                                       @PageableDefault(value = 20, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
+                                       @PageableDefault(value = 20, sort = {"id"}, direction = Sort.Direction.DESC)
+                                       @SortDefault.SortDefaults({
+                                               @SortDefault(sort = "ordinal", direction = Sort.Direction.ASC),
+                                               @SortDefault(sort = "publishTime", direction = Sort.Direction.DESC)
+                                       }) Pageable pageable) {
         List<String> content = Arrays.asList("a", "b", "c");
         return ResultVO.<List<String>>success().setPage(new PageImpl<>(content, pageable, 100));
     }
