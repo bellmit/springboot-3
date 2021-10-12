@@ -51,10 +51,12 @@ public class BaseUserRepositoryTest {
         User user = userRepository.findByName("张三").get(0);
         assertEquals(0, user.getVersion().intValue());
 
-        user.setName("李四");
-        userRepository.save(user);
+        user.setName("李四"); // 必填
+        User updatedUser = userRepository.save(user);
+        assertEquals(1, updatedUser.getVersion().intValue());
+        Assert.assertNotEquals(user, updatedUser);
 
-        user.setName("王五");
+        user.setName("王五"); // 必填
         Assert.assertThrows(ObjectOptimisticLockingFailureException.class, () -> userRepository.save(user));
     }
 
