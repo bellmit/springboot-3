@@ -2,7 +2,6 @@ package com.leo.boot.jpa.repo;
 
 import com.leo.boot.jpa.domain.User;
 import com.leo.boot.jpa.domain.projection.UserProjection;
-import com.leo.boot.jpa.domain.projection.UserVO;
 import com.leo.boot.jpa.enumeration.Gender;
 import org.junit.After;
 import org.junit.Assert;
@@ -115,14 +114,6 @@ public class BaseUserRepositoryTest {
         userRepository.modifyNickByNameByNative("三", "张三");
         User user = userRepository.findByNameOrNick("", "三").get(0);
         assertEquals("张三", user.getName());
-    }
-
-    @Test
-    public void findByNameByVO() {
-        UserVO user = userRepository.findByNameByVO("张三").get(0);
-        assertEquals("张三", user.getName());
-        assertEquals(Gender.MALE, user.getGender());
-        assertEquals(100.00, user.getAccount(), 0.01);
     }
 
     @Test

@@ -1,16 +1,15 @@
 package com.leo.boot.jpa.repo;
 
-import java.util.List;
-
+import com.leo.boot.jpa.domain.User;
+import com.leo.boot.jpa.domain.projection.UserProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
-import com.leo.boot.jpa.domain.projection.*;
 
-import com.leo.boot.jpa.domain.User;
+import java.util.List;
 
 public interface UserRepository extends JpaRepository<User, String>, JpaSpecificationExecutor<User> {
 
@@ -41,9 +40,6 @@ public interface UserRepository extends JpaRepository<User, String>, JpaSpecific
     @Modifying
     @Query(value = "update t_user set nick = :nick where name = :name", nativeQuery = true)
     void modifyNickByNameByNative(@Param("nick") String nick, @Param("name") String name);
-
-    @Query(value = "select * from t_user where name = :name", nativeQuery = true)
-    List<UserVO> findByNameByVO(@Param("name") String name);
 
     @Query(value = "select * from t_user where name = :name", nativeQuery = true)
     List<UserProjection> findByNameByProjection(@Param("name") String name);
