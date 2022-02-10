@@ -1,23 +1,18 @@
 package com.leo.boot.aop.annotation.handler;
 
-import java.lang.reflect.Method;
-
-import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.expression.EvaluationContext;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
 import org.springframework.lang.Nullable;
 
+import java.lang.reflect.Method;
+
 public class SpelContext {
 
     private static final ExpressionParser expressionParser = new SpelExpressionParser();
 
     private EvaluationContext context;
-    
-    public static SpelContext of(MethodSignature methodSignature, Object[] argValues) {
-        return of(methodSignature.getMethod(), methodSignature.getParameterNames(), argValues);
-    }
 
     public static SpelContext of(Method method, String[] argNames, Object[] argValues) {
         return new SpelContext(method, argNames, argValues);

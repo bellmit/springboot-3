@@ -28,7 +28,8 @@ public class LockHandler {
         }
         String lockId = "all";
         if (!StringUtils.isEmpty(lock.id())) {
-            lockId = SpelContext.of(methodSignature, joinPoint.getArgs()).getValue(lock.id());
+            lockId = SpelContext.of(methodSignature.getMethod(), methodSignature.getParameterNames(), joinPoint.getArgs())
+                    .getValue(lock.id());
         }
         lockKey = String.format(lockKey, lockId);
         String lockTS = String.valueOf(System.currentTimeMillis() + lock.timeout());
