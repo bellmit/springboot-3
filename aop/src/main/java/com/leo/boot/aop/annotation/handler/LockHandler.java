@@ -22,16 +22,15 @@ public class LockHandler {
         MethodSignature methodSignature = ((MethodSignature) joinPoint.getSignature());
         Lock lock = methodSignature.getMethod().getAnnotation(Lock.class);
 
-        String lockKey = lock.key();
+        String lockKey = "lock:" + methodSignature + ":%s";
         if (!StringUtils.isEmpty(lock.key())) {
-            lockKey = "lock:" + methodSignature + ":%s";
+            lockKey = lock.key();
         }
+        String lockId = "all";
         if (!StringUtils.isEmpty(lock.id())) {
-            String lockId = SpelContext.of(methodSignature, joinPoint.getArgs()).getValue(lock.id());
-            lockKey = String.format(lock.key(), lockId);
-        } else {
-            lockKey = String.format(lockKey, "all");
+            lockId = SpelContext.of(methodSignature, joinPoint.getArgs()).getValue(lock.id());
         }
+        lockKey = String.format(lockKey, lockId);
         String lockTS = String.valueOf(System.currentTimeMillis() + lock.timeout());
         int retryTimes = lock.retryTimes();
 
@@ -42,7 +41,7 @@ public class LockHandler {
                 redisLock.unlock(lockKey, lockTS);
             }
         } else if (lock.interrupt()) {
-            throw new IllegalStateException("unable to acquire lock");
+            throw new IllegalStateException(String.format("unable to acquire lock of %s", lockKey));
         } else {
             return null;
         }

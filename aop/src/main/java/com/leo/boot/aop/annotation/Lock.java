@@ -7,7 +7,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface Lock {
 
-	String id() default ""; // use SpEL expression
+	String id() default ""; // use SpEL expression.
 
 	String key() default ""; // default is method name.
 
