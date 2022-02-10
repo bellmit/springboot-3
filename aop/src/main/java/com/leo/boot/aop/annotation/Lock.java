@@ -1,7 +1,5 @@
 package com.leo.boot.aop.annotation;
 
-import com.leo.boot.aop.lock.RedisLock;
-
 import java.lang.annotation.*;
 
 @Target(ElementType.METHOD)
@@ -11,9 +9,9 @@ public @interface Lock {
 
 	String id() default ""; // use SpEL expression
 
-	String key() default RedisLock.COMMON_LOCK_KEY;
+	String key() default ""; // default is method name.
 
-	long timeout() default RedisLock.COMMON_TIME_OUT;
+	long timeout() default 3000L;
 
 	int retryTimes() default 0;
 
